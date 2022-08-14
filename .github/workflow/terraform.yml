@@ -1,0 +1,32 @@
+name: Terraform CI
+
+on: 
+  push:
+    branches:
+      - feature-603/create-repo-creation-approval-github-action-workflow
+
+jobs:
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out code  
+      uses: actions/checkout@v3
+
+    - name: Run a Terraform Format 
+      uses: docker://hashicorp/terraform:1.2.4
+      with:
+        entrypoint: terraform
+        args: fmt
+
+    - name: Run a Terraform init  
+      uses: docker://hashicorp/terraform:1.2.4
+      with:
+        entrypoint: terraform
+        args: init
+
+    - name: Run a Terraform validate    
+      uses: docker://hashicorp/terraform:1.2.4
+      with:
+        entrypoint: terraform
+        args: validate
